@@ -6,11 +6,15 @@ import { User } from './models/entities/user.entity';
 import { CreateUserDto } from './models/dto/request/create-user.dto';
 import { UserErrors } from '../../shared/errors/user/user.errors';
 import { CommonErrors } from 'src/shared/errors/common/common.errors';
+import {TypeOrmCrudService} from "@nestjsx/crud-typeorm";
+import {Fichier} from "../fichier/models/entities/fichier.entity";
 
 @Injectable()
-export class UserService {
+export class UserService extends TypeOrmCrudService<User> {
 
-    constructor(@InjectRepository(User) private userRepository:Repository<User>) {}
+    constructor(@InjectRepository(User) private userRepository:Repository<User>) {
+        super(userRepository);
+    }
     
     /* create new user */
     async createUser(@Body() createUserDto:CreateUserDto): Promise<User> {
@@ -55,7 +59,7 @@ export class UserService {
 
         try {
             delete user.password
-            delete user.role
+            // delete user.role
             return await user;
         } catch (err) {
             throw new InternalServerErrorException(CommonErrors.ServerError);

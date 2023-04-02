@@ -12,7 +12,6 @@ import { AuthResponse } from './models/entities/auth-response.dto';
 export class AuthService {
 
     constructor(private userService:UserService, private jwtService:JwtService) { }
-
     /* create new user */
     async register(createUserDto: CreateUserDto): Promise<AuthResponse> {
         const user = await this.userService.createUser(createUserDto);
@@ -21,17 +20,17 @@ export class AuthService {
             token: this.jwtService.sign({  id: user.id, role: user.role }) 
         }
     }
-
     /* login existing user */
     async login(authLoginDto: UserLoginDto) {
         const user = await this.validateUser(authLoginDto);
         const payload = {
             role: user.role,
             id: user.id
-           
         };
+        delete user.password;
         return {
-            access_token: this.jwtService.sign(payload),
+            token: this.jwtService.sign(payload),
+            user:user
         };
     }
 

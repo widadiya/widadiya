@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import {NewsfeedModule} from "./modules/newsfeed/newsfeed.module";
+import {FichierModule} from "./modules/fichier/fichier.module";
 
 @Module({
   imports: [
@@ -21,7 +23,9 @@ import { AuthModule } from './modules/auth/auth.module';
         synchronize: true,
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+      NewsfeedModule,
+      FichierModule
   ],
   controllers: [],
   providers: [ ],
